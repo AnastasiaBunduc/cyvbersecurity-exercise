@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Organization - Practice Resources</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
-      body {
+        body {
             font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -111,26 +111,30 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }  
+        }
     </style>
-    <body>
-        <div class="container">
-            <div class="logo">
-                <img src="images/Merkle-logo.webp" alt="QA Organization Logo">
-            </div>
-            <div id="initialContent" class="initial-content">
-                <h1>QA Organization Resources</h1>
-                <p>Loading shared practice resources...</p>
-                <div class="loading"></div>
-            </div>
-            <div id="phishingAlert" class="phisingAlert">
-                <h2>🎯 Gotcha! This was a Security Awareness Test</h2>
-            </div>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="images/Merkle logo.png" alt="QA Organization Logo">
+        </div>
+        
+        <div id="initialContent" class="initial-content">
+            <h1>QA Organization Resources</h1>
+            <p>Loading shared practice resources...</p>
+            <div class="loading"></div>
+        </div>
+
+        <div id="phishingAlert" class="phishing-alert">
+            <h2>🎯 Gotcha! This was a Security Awareness Test</h2>
+            
             <div class="stats">
                 <p>Your IP Address: <span id="ipAddress" class="highlight">Loading...</span></p>
-                <p>Your visitor number <span id="visitorCount" class="highlight">0</span>who clicked this link</p>
-                <p>Access time: <span id="accessTime" class="highlight">Loading...</span></p>
+                <p>You are visitor number <span id="visitorCount" class="highlight">0</span> who clicked this link</p>
+                <p>Access Time: <span id="accessTime" class="highlight">Loading...</span></p>
             </div>
+
             <h3>⚠️ In a real phishing attempt, you could have:</h3>
             <ul class="lessons">
                 <li>Exposed your credentials to attackers</li>
@@ -138,56 +142,60 @@
                 <li>Compromised company data</li>
                 <li>Given attackers access to internal systems</li>
             </ul>
-            <h3>What you should have noticed:</h3>
+
+            <h3>🔍 What you should have noticed:</h3>
             <ul class="lessons">
                 <li>Did you verify the sender's email address?</li>
-                <li>Did you hover over the link, to check its actual destination?</li>
+                <li>Did you hover over the link to check its actual destination?</li>
                 <li>Did you question why you needed to "accept an invite" for internal resources?</li>
-                <li>Were you influenced by the artificial time pressure? (24 hour limit)</li>
+                <li>Were you influenced by the artificial time pressure (24-hour limit)?</li>
             </ul>
-         <p class="highlight">Remember: Take a momen to verify before you click. When in doubt, contact your IT department or the person in charge.</p>
+
+            <p class="highlight">Remember: Take a moment to verify before you click. When in doubt, contact your IT department!</p>
         </div>
-        <button id="accessButton" class="button">Access Resources</button>   
 
-        <script>
-            $(document).ready(function(){
-                //Get incremented visitor count
-                let count = localStorage.getItem('visitorCount') || 0;
-                count = parseInt(count) + 1;
-                localStorage.setItem('visitorCount', count);
+        <button id="accessButton" class="button">Access Resources</button>
+    </div>
 
-                //Get current time
-                const now = new Date().toLocaleString();
-                //Fetch IP address
-                $.getJSON('https://api.ipify.org?format=json', function(data){
-                    $('#ipAddress').text(data.ip);
-                }).fail(function(){
-                    $('#ipAddress').text('Not available!');
+    <script>
+        $(document).ready(function() {
+            // Get and increment visitor count
+            let count = localStorage.getItem('visitorCount') || 0;
+            count = parseInt(count) + 1;
+            localStorage.setItem('visitorCount', count);
+            
+            // Get current time
+            const now = new Date().toLocaleString();
+            
+            // Fetch IP address
+            $.getJSON('https://api.ipify.org?format=json', function(data) {
+                $('#ipAddress').text(data.ip);
+            }).fail(function() {
+                $('#ipAddress').text('Not available');
+            });
+
+            $('#visitorCount').text(count);
+            $('#accessTime').text(now);
+
+            // Handle button click with proper animations
+            $('#accessButton').click(function() {
+                const button = $(this);
+                const initialContent = $('#initialContent');
+                const phishingAlert = $('#phishingAlert');
+
+                // Disable button immediately
+                button.prop('disabled', true).text('Access Denied');
+
+                // Fade out initial content
+                initialContent.fadeOut(500, function() {
+                    // Add hidden class after fadeout
+                    initialContent.addClass('hidden');
+                    
+                    // Show and fade in phishing alert
+                    phishingAlert.show().addClass('visible');
                 });
-                $('#visitorCount').text(count);
-                $('#accessTime').text(now);
-
-                //Handle button click with animation
-                $('#accessButton').click(function(){
-                    const button = $(this);
-                    const initialContent = $('#initialContent');
-                    const phishingAlert = $('#phisingAlert');
-
-                    //Disable button 
-                    button.prop('disabled', true).text('Access Denied');
-                
-                    //Fadeout initial content
-
-                    initialContent.fadeOut(500, function(){
-                        //Add hidden class after fadeout
-                        initialContent.addClass('hidden');
-
-                        //Show and fade in phishing alert
-                        phishingAlert.show().addClass('visible');
-                    });
-                });
-                });
-        </script>
-    </body>
-    </head>
+            });
+        });
+    </script>
+</body>
 </html>
